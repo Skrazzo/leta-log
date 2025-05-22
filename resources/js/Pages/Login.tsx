@@ -27,7 +27,7 @@ export default function Login() {
 
     return (
         <>
-            <h1 className="text-2xl my-4">Login</h1>
+            <h1 className="text-2xl m-4">Login</h1>
             <form onSubmit={submitHandler} className="flex flex-col gap-2 p-4 bg-gray-100">
                 <FormInput errors={errors} name={"email"} onChange={changeHandler} />
                 <FormInput errors={errors} name={"password"} type="password" onChange={changeHandler} />
