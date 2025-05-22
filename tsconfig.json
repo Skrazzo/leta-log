@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "ESNext", // Or "ES2020", "ES2021", etc.
+        "module": "ESNext",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "jsx": "react-jsx", // Use "react" if you're on an older React version
+        "esModuleInterop": true, // Enables compatibility with CommonJS modules
+        "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export
+        "strict": true, // Enables all strict type-checking options (recommended)
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node", // Or "bundler" for modern bundlers
+        "resolveJsonModule": true,
+        "isolatedModules": true, // Ensures each file can be transpiled independently
+        "noEmit": true, // Important: Vite/Webpack will handle transpilation, TS only for type checking
+        "skipLibCheck": true, // Skips type checking of declaration files (speeds up compilation)
+        "baseUrl": "./", // Base directory for module resolution
+        "paths": {
+            // Match your Vite/Webpack aliases, typically for 'resources/js'
+            "@/*": ["resources/js/*"]
+        },
+        "allowJs": true // Crucial for incremental migration: allows JS files to be imported
+    },
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.d.ts"
+        // Add other paths if you have TS files elsewhere
+    ],
+    "exclude": ["node_modules", "public", "vendor"]
+}

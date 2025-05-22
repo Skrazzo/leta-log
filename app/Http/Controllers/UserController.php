@@ -20,27 +20,27 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'name' => 'required|min:3',
             'surname' => 'required',
-            'password' => 'required|min:8'
+            'password' => 'required|confirmed|min:8'
         ]);
 
         User::create($data);
-        return back();
+        return redirect(route('login'));
     }
 
     public function login(Request $req)
     {
         $credentials = $req->validate([
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
-        if (auth()->attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             $req->session()->regenerate();
             return redirect(route('dashboard'));
         }
 
         return back()->withErrors([
-            'error' => 'Username or password is incorrect!',
+            'email' => 'Incorrect credentials!',
         ]);
     }
 }
