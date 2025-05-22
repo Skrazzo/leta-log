@@ -1,15 +1,18 @@
+import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo } from "@/types/Auth";
 import { Link } from "@inertiajs/inertia-react";
 
-export default function Dashboard({ auth }: AuthInfo) {
-    console.log(auth);
+interface DashboardProps {
+    auth: AuthInfo;
+}
 
+export default function Dashboard({ auth }: DashboardProps) {
     return (
-        <>
+        <AuthLayout auth={auth}>
             <div>
-                Welcome back <strong>{auth.user.username}</strong> you are logged in!
+                Welcome back <strong>{auth.user.name}</strong> you are logged in!
             </div>
             <Link href={"/logout"}>Logout</Link>
-        </>
+        </AuthLayout>
     );
 }

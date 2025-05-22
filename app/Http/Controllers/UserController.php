@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -12,6 +13,11 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect(route('login'));
+    }
+
+    public function register_index()
+    {
+        return Inertia::render('Register');
     }
 
     public function register(Request $req)
@@ -27,6 +33,11 @@ class UserController extends Controller
         return redirect(route('login'));
     }
 
+    public function login_index()
+    {
+        return Inertia::render('Login');
+    }
+
     public function login(Request $req)
     {
         $credentials = $req->validate([
@@ -36,7 +47,7 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $req->session()->regenerate();
-            return redirect(route('dashboard'));
+            return redirect(route('posts.view'));
         }
 
         return back()->withErrors([

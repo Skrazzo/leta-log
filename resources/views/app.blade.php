@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
-        @viteReactRefresh 
+        <title>Leta-log | A blog for you</title>
+        @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.jsx'])
         <!-- As you can see, we will use vite with jsx syntax for React-->
         @routes
