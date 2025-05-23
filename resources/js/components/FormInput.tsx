@@ -9,7 +9,7 @@ interface Props {
     errors: Record<string, string>;
 }
 
-export default function FormInput({ name, onChange, type = "text", className, placeholder, errors }: Props) {
+export default function FormInput({ name, onChange, type = "text", className = "", placeholder, errors }: Props) {
     function changeHandler(e: ChangeEvent<HTMLInputElement>) {
         if (onChange) {
             onChange(name, e.target.value);
@@ -25,7 +25,7 @@ export default function FormInput({ name, onChange, type = "text", className, pl
     return (
         <label htmlFor={name}>
             <input
-                className={`border rounded ${className} ${errors[name] ? "border-red-500" : ""}`}
+                className={`h-9 w-full bg-transparent px-3 py-1 focus:outline-none border border-primary/15 focus:border-accent rounded ${className} ${errors[name] ? "border-red-500" : ""}`}
                 type={type}
                 name={name}
                 onChange={changeHandler}

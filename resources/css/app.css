@@ -1,9 +1,14 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
     --color-accent: var(--color-blue-600);
-    --color-primary: var(--color-blue-950);
+    --color-primary: var(--color-black);
     --color-secondary: var(--color-gray-600);
+
+    --color-background: var(--color-gray-200);
+    --color-background-light: var(--color-gray-100);
+    --color-background-dark: var(--color-gray-300);
 }
 
 body {

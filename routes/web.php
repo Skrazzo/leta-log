@@ -26,5 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::controller(PostsController::class)->group(function () {
         Route::get('/', 'view')->name('posts.view');
         Route::get('/new', 'create_page')->name('posts.create.page');
+        Route::post('/new', 'create')->name('posts.create');
     });
 });

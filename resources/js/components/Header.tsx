@@ -1,4 +1,4 @@
-import { AuthInfo } from "@/types/Auth";
+import { AuthInfo } from "@/types/Data";
 import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
 import { LogOut } from "lucide-react";
 import NavLink from "./NavLink";

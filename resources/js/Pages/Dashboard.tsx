@@ -1,5 +1,5 @@
 import { AuthLayout } from "@/Layouts/AuthLayout";
-import { AuthInfo } from "@/types/Auth";
+import { AuthInfo } from "@/types/Data";
 import { Link } from "@inertiajs/inertia-react";
 
 interface DashboardProps {
