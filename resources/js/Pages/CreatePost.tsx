@@ -67,6 +67,7 @@ export default function CreatePost({ auth, categories }: Props) {
                             errors={errors}
                             onChange={inputChangeHandler}
                             name="title"
+                            maxLength={75}
                         />
                     </ContentLabel>
 

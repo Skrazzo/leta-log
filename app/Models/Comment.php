@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Comment extends Model
 {
@@ -25,4 +26,14 @@ class Comment extends Model
         return $this->belongsTo(Post::class);
     }
 
+    protected $appends = ['created_at_diff'];
+
+    public function getCreatedAtDiffAttribute(): ?string
+    {
+        if ($this->created_at) {
+            // diffForHumans() provides output like "1 hour ago", "2 days ago"
+            return $this->created_at->diffForHumans();
+        }
+        return null;
+    }
 }

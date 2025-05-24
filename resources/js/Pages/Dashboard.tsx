@@ -6,7 +6,6 @@ import Skeleton from "@/components/Skeleton";
 import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo, Category, LaravelPagination, PostList } from "@/types/Data";
 import { UrlManager } from "@/utils/UrlManager";
-import { Link } from "@inertiajs/inertia-react";
 import axios from "axios";
 import { Frown } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";

@@ -5,6 +5,7 @@
     --color-accent: var(--color-blue-600);
     --color-primary: var(--color-black);
     --color-secondary: var(--color-gray-600);
+    --color-danger: var(--color-red-600);
 
     --color-background: var(--color-gray-200);
     --color-background-light: var(--color-gray-100);

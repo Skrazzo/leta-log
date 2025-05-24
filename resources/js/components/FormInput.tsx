@@ -9,6 +9,7 @@ interface Props {
     errors: Record<string, string>;
     value?: string;
     containerClass?: string;
+    maxLength?: number;
 }
 
 export default function FormInput({
@@ -20,6 +21,7 @@ export default function FormInput({
     errors,
     value,
     containerClass,
+    maxLength,
 }: Props) {
     function changeHandler(e: ChangeEvent<HTMLInputElement>) {
         if (onChange) {
@@ -42,8 +44,9 @@ export default function FormInput({
                 name={name}
                 onChange={changeHandler}
                 placeholder={placeholder || nameToPlaceHolder(name)}
+                maxLength={maxLength || 255}
             />
-            {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
+            {errors[name] && <p className="text-danger text-xs mt-1">{errors[name]}</p>}
         </div>
     );
 }

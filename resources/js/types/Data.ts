@@ -14,6 +14,17 @@ export interface Category {
     name: string;
 }
 
+export interface Comment {
+    id: number;
+    user_id: number;
+    user: User;
+    post_id: number;
+    comment: string;
+    updated_at: string;
+    created_at: string;
+    created_at_diff: string;
+}
+
 export interface User {
     id: number;
     name: string;
@@ -36,6 +47,7 @@ export interface LaravelPagination<T> {
     total: number | null;
 }
 
+// Used in dashboard
 export interface PostList {
     categories: Category[];
     comments_count: number;
@@ -45,6 +57,21 @@ export interface PostList {
     text: string;
     title: string;
     updated_at: string;
+    user: User;
+    user_id: number;
+}
+
+// Single post view
+export interface Post {
+    id: number;
+    categories: Category[];
+    comments: Comment[];
+    comments_count: number;
+    content: string;
+    text: string;
+    title: string;
+    updated_at: string;
+    created_at: string;
     user: User;
     user_id: number;
 }

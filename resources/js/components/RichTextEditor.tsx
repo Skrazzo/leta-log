@@ -71,7 +71,7 @@ const RichTextEditor: React.FC<TiptapEditorProps> = ({
         },
         editorProps: {
             attributes: {
-                class: "prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none focus:outline-none min-h-[200px] p-3 w-full",
+                class: "prose prose-sm sm:prose lg:prose-lg prose-hr:!my-8 prose-p:my-1 focus:outline-none min-h-[200px] p-3 !max-w-full  w-full",
             },
         },
     });

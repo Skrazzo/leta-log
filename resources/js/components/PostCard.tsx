@@ -53,13 +53,13 @@ const PostCard: React.FC<PostCardProps> = ({
     return (
         <a
             href={postUrl}
-            className={`block bg-white rounded-lg shadow-xs border border-gray-200 hover:shadow-lg transition-shadow duration-200 ease-in-out overflow-hidden ${className}`}
+            className={`block bg-background-light rounded-lg shadow-xs border border-primary/15 hover:shadow-lg transition-shadow duration-200 ease-in-out overflow-hidden ${className}`}
             aria-label={`Read more about ${title}`}
         >
             <div className="p-5 md:p-6">
                 <div className="flex justify-between items-center mb-3">
                     {/* Title limited to 2 lines */}
-                    <h3 className="text-xl font-semibold text-gray-900 leading-tight line-clamp-2">{title}</h3>
+                    <h3 className="text-xl font-semibold text-primary leading-tight line-clamp-2">{title}</h3>
                     {categoryDisplay && (
                         <div className="flex-shrink-0 ml-2 mt-0.5">
                             <Pill className="text-xs font-medium whitespace-nowrap">{categoryDisplay}</Pill>
@@ -67,23 +67,23 @@ const PostCard: React.FC<PostCardProps> = ({
                     )}
                 </div>
 
-                <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">{preview}</p>
+                <p className="text-secondary text-sm mb-4 leading-relaxed line-clamp-3">{preview}</p>
             </div>
 
-            <div className="border-t border-gray-200 px-5 md:px-6 py-4">
-                <div className="flex flex-wrap justify-between items-center gap-y-2 gap-x-4 text-xs text-gray-500">
+            <div className="border-t border-primary/15 px-5 md:px-6 py-4">
+                <div className="flex flex-wrap justify-between items-center gap-y-2 gap-x-4 text-xs text-secondary">
                     <div className="flex items-center">
-                        <User size={14} className="mr-1.5 text-gray-400" />
+                        <User size={14} className="mr-1.5 text-secondary" />
                         <span>
                             {author.name} {author.surname}
                         </span>
                     </div>
                     <div className="flex items-center">
-                        <CalendarDays size={14} className="mr-1.5 text-gray-400" />
+                        <CalendarDays size={14} className="mr-1.5 text-secondary" />
                         <span>{formattedDate}</span>
                     </div>
                     <div className="flex items-center">
-                        <MessageSquare size={14} className="mr-1.5 text-gray-400" />
+                        <MessageSquare size={14} className="mr-1.5 text-secondary" />
                         <span>
                             {commentCount} {commentCount === 1 ? "comment" : "comments"}
                         </span>

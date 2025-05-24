@@ -14,7 +14,7 @@ export default function ContentLabel(props: Props) {
                 htmlFor={props.label.toLowerCase()}
             >
                 {props.label}
-                {props.required && <span className="text-red-500">*</span>}
+                {props.required && <span className="text-danger">*</span>}
             </label>
             {props.children}
         </div>

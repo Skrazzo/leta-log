@@ -24,9 +24,11 @@ Route::controller(UserController::class)->group(function () {
 Route::middleware('auth')->group(function () {
     // CRUD for posts
     Route::controller(PostsController::class)->group(function () {
-        Route::get('/', 'view')->name('posts.view');
-        Route::get('/posts', 'get')->name('get.posts.data');
-        Route::get('/new', 'create_page')->name('posts.create.page');
-        Route::post('/new', 'create')->name('posts.create');
+        Route::get('/', 'view')->name('posts.view'); // view all posts
+        Route::get('/post/{post}', 'view_post')->name('post.view'); // view single post
+        Route::get('/posts', 'get')->name('get.posts.data'); // Api route to get posts in dashboard
+        Route::get('/new', 'create_page')->name('posts.create.page'); // create post page
+        Route::post('/new', 'create')->name('posts.create'); // create post
+        Route::post('/comment/{post}', 'comment')->name('post.comment'); // comment on post
     });
 });

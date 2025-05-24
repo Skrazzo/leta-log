@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -16,6 +17,37 @@ class PostsController extends Controller
         // Get all available categories
         $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
         return Inertia::render('Dashboard', ['categories' => $categories]);
+    }
+
+    public function comment(Post $post, Request $req)
+    {
+        $data = $req->validate([
+            'comment' => 'required|string|max:255',
+        ]);
+
+        Comment::create([
+            'user_id' => Auth::id(),
+            'post_id' => $post->id,
+            'comment' => $data['comment'],
+        ]);
+
+        return back();
+    }
+
+    public function view_post(Post $post)
+    {
+        // Load other relationship tables aswell
+        $post->load([
+            'user:id,name,surname', // post author
+            'comments' => function ($q) { // comments, with users sorted by newest
+                $q->orderBy('created_at', 'desc')->with('user:id,name,surname');
+            },
+            'categories' => function ($q) { // Categories in alphabetical order
+                $q->orderBy('name', 'asc');
+            }
+        ])->loadCount('comments');
+
+        return Inertia::render('ViewPost', compact('post'));
     }
 
     public function get(Request $req)
@@ -72,7 +104,7 @@ class PostsController extends Controller
     public function create(Request $req)
     {
         $data = $req->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:75',
             'content' => 'required|string',
             'text' => 'required|string',
             'categories' => 'required|array',
