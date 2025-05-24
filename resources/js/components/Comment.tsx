@@ -1,4 +1,6 @@
-import { Trash, UserCircle } from "lucide-react";
+import { Trash2, UserCircle } from "lucide-react";
+import ConfirmationModal from "./ConfirmationModal";
+import { useState } from "react";
 
 interface CommentProps {
     name: string;
@@ -12,6 +14,7 @@ const Comment: React.FC<CommentProps> = ({ name, text, isOwnComment = false, tim
     // Classes for styling
     const baseContainerClasses = "p-4 border-primary/15 rounded-md flex items-start gap-3 bg-background-light border ";
     const ownCommentClasses = `border border-l-6 border-l-accent `;
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     return (
         <div
@@ -21,6 +24,21 @@ const Comment: React.FC<CommentProps> = ({ name, text, isOwnComment = false, tim
                 ${className}
             `}
         >
+            {/* Danger Modal Example */}
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={() => console.log("Delete item")}
+                variant="danger"
+                title="Delete comment?"
+                confirmText="Yes, Delete"
+                cancelText="Cancel"
+                icon={<Trash2 size={24} />} // Pass Lucide icon instance
+            >
+                <p className="text-primary">Are you absolutely sure you want to delete this comment?</p>
+                <p className="mt-1 text-xs text-secondary">This action cannot be undone.</p>
+            </ConfirmationModal>
+
             {/* Avatar Section */}
             <div className="flex-shrink-0 mt-0.5">
                 <UserCircle
@@ -41,7 +59,11 @@ const Comment: React.FC<CommentProps> = ({ name, text, isOwnComment = false, tim
 
             {isOwnComment && (
                 <div>
-                    <Trash className="text-secondary hover:text-danger cursor-pointer" size={20} />
+                    <Trash2
+                        onClick={() => setIsDeleteModalOpen(true)}
+                        className="text-secondary hover:text-danger cursor-pointer"
+                        size={20}
+                    />
                 </div>
             )}
         </div>

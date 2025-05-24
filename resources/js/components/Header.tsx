@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export const Header = ({ name, surname }: HeaderProps) => {
     return (
-        <header className="text-lg bg-gray-100 shadow">
+        <header className="fixed w-full text-lg bg-gray-100 shadow">
             <div className="container mx-auto flex items-center gap-6">
                 <Link href="/">
                     <span className="text-accent text-2xl font-bold">Leta-log</span>
