@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -12,13 +13,58 @@ class PostsController extends Controller
 {
     public function view()
     {
-        return Inertia::render('Dashboard');
+        // Get all available categories
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
+        return Inertia::render('Dashboard', ['categories' => $categories]);
+    }
+
+    public function get(Request $req)
+    {
+        $validatedData = $req->validate([
+            'query' => 'nullable|string|max:255',
+            'category' => 'nullable|integer',
+            'page' => 'nullable|integer|min:1',
+        ]);
+
+        $searchQuery = $validatedData['query'] ?? null;
+        $categoryId = $validatedData['category'] ?? null;
+        $postsPerPage = 100;
+
+        $query = Post::query()
+            ->with([
+                'categories',
+                'user' => function ($q) {
+                    $q->select('id', 'name', 'surname');
+                }
+            ]) // Eager load relationships, so that query go zoooooom
+            ->withCount('comments')
+            ->orderBy('created_at', 'desc');
+
+
+        // Filter search query if provided
+        if ($searchQuery && $searchQuery !== "") {
+            $query->where(function (Builder $q) use ($searchQuery) {
+                $q->where('title', 'LIKE', "%{$searchQuery}%")
+                  ->orWhere('text', 'LIKE', "%{$searchQuery}%");
+            });
+        }
+
+        // Filter category if provided
+        if ($categoryId && $categoryId > 0) {
+            $query->whereHas('categories', function (Builder $q) use ($categoryId) {
+                $q->where('categories.id', $categoryId);
+            });
+        }
+
+        // Get posts with pagination from $page variable
+        $posts = $query->paginate($postsPerPage);
+        return response()->json($posts);
     }
 
     public function create_page()
     {
         // Get all available categories
-        $categories = Category::all()->select('id', 'name');
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
         return Inertia::render('CreatePost', ['categories' => $categories]);
     }
 

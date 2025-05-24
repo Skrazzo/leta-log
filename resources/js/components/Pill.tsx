@@ -18,7 +18,9 @@ export default function Pill(props: Props) {
             className={`flex items-center gap-1 rounded-full px-2 py-1 bg-accent/10 text-xs text-accent ${props.className || ""}`}
         >
             <span>{props.children}</span>
-            <X size={14} className="hover:text-accent/75 cursor-pointer active:scale-90" onClick={clickHandler} />
+            {props.onClose && (
+                <X size={14} className="hover:text-accent/75 cursor-pointer active:scale-90" onClick={clickHandler} />
+            )}
         </div>
     );
 }

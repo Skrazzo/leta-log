@@ -7,9 +7,20 @@ interface Props {
     onChange?: (field: string, value: string) => void;
     placeholder?: string;
     errors: Record<string, string>;
+    value?: string;
+    containerClass?: string;
 }
 
-export default function FormInput({ name, onChange, type = "text", className = "", placeholder, errors }: Props) {
+export default function FormInput({
+    name,
+    onChange,
+    type = "text",
+    className = "",
+    placeholder,
+    errors,
+    value,
+    containerClass,
+}: Props) {
     function changeHandler(e: ChangeEvent<HTMLInputElement>) {
         if (onChange) {
             onChange(name, e.target.value);
@@ -23,15 +34,16 @@ export default function FormInput({ name, onChange, type = "text", className = "
     }
 
     return (
-        <label htmlFor={name}>
+        <div className={containerClass || ""}>
             <input
-                className={`h-9 w-full bg-transparent px-3 py-1 focus:outline-none border border-primary/15 focus:border-accent rounded ${className} ${errors[name] ? "border-red-500" : ""}`}
+                className={`h-9 w-full px-3 py-1 focus:outline-none border border-primary/15 focus:border-accent rounded ${className} ${errors[name] ? "border-red-500" : ""}`}
+                value={value}
                 type={type}
                 name={name}
                 onChange={changeHandler}
                 placeholder={placeholder || nameToPlaceHolder(name)}
             />
             {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
-        </label>
+        </div>
     );
 }

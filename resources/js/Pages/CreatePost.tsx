@@ -63,7 +63,7 @@ export default function CreatePost({ auth, categories }: Props) {
                 <section className="col-span-2 flex flex-col gap-4 rounded-lg">
                     <ContentLabel required label="Title">
                         <FormInput
-                            className="w-full bg-white"
+                            className="w-full bg-background-light"
                             errors={errors}
                             onChange={inputChangeHandler}
                             name="title"

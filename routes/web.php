@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     // CRUD for posts
     Route::controller(PostsController::class)->group(function () {
         Route::get('/', 'view')->name('posts.view');
+        Route::get('/posts', 'get')->name('get.posts.data');
         Route::get('/new', 'create_page')->name('posts.create.page');
         Route::post('/new', 'create')->name('posts.create');
     });
