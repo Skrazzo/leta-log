@@ -1,8 +1,10 @@
 import { Trash2, UserCircle } from "lucide-react";
 import ConfirmationModal from "./ConfirmationModal";
 import { useState } from "react";
+import { useForm } from "@inertiajs/react";
 
 interface CommentProps {
+    id: number;
     name: string;
     text: string;
     isOwnComment?: boolean;
@@ -10,11 +12,26 @@ interface CommentProps {
     className?: string;
 }
 
-const Comment: React.FC<CommentProps> = ({ name, text, isOwnComment = false, timestamp, className = "" }) => {
+const Comment: React.FC<CommentProps> = ({ id, name, text, isOwnComment = false, timestamp, className = "" }) => {
     // Classes for styling
     const baseContainerClasses = "p-4 border-primary/15 rounded-md flex items-start gap-3 bg-background-light border ";
     const ownCommentClasses = `border border-l-6 border-l-accent `;
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    const { delete: deleteComment } = useForm();
+
+    const deleteCommentHandler = () => {
+        deleteComment(`/comment/${id}`, {
+            onError: (errors) => {
+                console.log(errors);
+                alert("Unknown error while deleting your comment");
+            },
+            onFinish: () => {
+                setIsDeleteModalOpen(false);
+                window.location.reload();
+            },
+        });
+    };
 
     return (
         <div
@@ -28,7 +45,7 @@ const Comment: React.FC<CommentProps> = ({ name, text, isOwnComment = false, tim
             <ConfirmationModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
-                onConfirm={() => console.log("Delete item")}
+                onConfirm={deleteCommentHandler}
                 variant="danger"
                 title="Delete comment?"
                 confirmText="Yes, Delete"

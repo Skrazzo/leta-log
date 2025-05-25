@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CommentOwner;
+use App\Http\Middleware\PostOwner;
 use Illuminate\Support\Facades\Route;
 
 // Routes for authorisation
@@ -22,13 +24,25 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    // CRUD for posts
+    // CRUD for posts/comments
     Route::controller(PostsController::class)->group(function () {
+        // Posts
         Route::get('/', 'view')->name('posts.view'); // view all posts
-        Route::get('/post/{post}', 'view_post')->name('post.view'); // view single post
-        Route::get('/posts', 'get')->name('get.posts.data'); // Api route to get posts in dashboard
         Route::get('/new', 'create_page')->name('posts.create.page'); // create post page
-        Route::post('/new', 'create')->name('posts.create'); // create post
+        Route::get('/posts', 'get')->name('get.posts.data'); // Api route to get posts in dashboard
+        Route::prefix('post')->group(function () {
+            Route::post('/', 'create')->name('posts.create'); // create post
+            Route::get('/{post}', 'view_post')->name('post.view'); // view single post
+
+            Route::middleware(PostOwner::class)->group(function () {
+                Route::delete('/{post}', 'delete_post')->name('post.delete'); // delete post
+                // Edit post page
+                // Edit post
+            });
+        });
+
+        // Comments
         Route::post('/comment/{post}', 'comment')->name('post.comment'); // comment on post
+        Route::delete('/comment/{comment}', 'delete_comment')->name('post.delete.comment')->middleware(CommentOwner::class); // delete comment
     });
 });

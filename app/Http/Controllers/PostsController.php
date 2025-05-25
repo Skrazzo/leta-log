@@ -34,6 +34,12 @@ class PostsController extends Controller
         return back();
     }
 
+    public function delete_comment(Comment $comment)
+    {
+        $comment->delete();
+        return back();
+    }
+
     public function view_post(Post $post)
     {
         // Load other relationship tables aswell
@@ -48,6 +54,12 @@ class PostsController extends Controller
         ])->loadCount('comments');
 
         return Inertia::render('ViewPost', compact('post'));
+    }
+
+    public function delete_post(Post $post)
+    {
+        $post->delete();
+        return redirect(route('posts.view')); // Dashboard
     }
 
     public function get(Request $req)

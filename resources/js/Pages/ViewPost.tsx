@@ -1,12 +1,14 @@
 import Button from "@/components/Button";
 import Comment from "@/components/Comment";
+import ConfirmationModal from "@/components/ConfirmationModal";
 import ContentLabel from "@/components/ContentLabel";
 import FormInput from "@/components/FormInput";
 import Pill from "@/components/Pill";
 import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo, Post } from "@/types/Data";
 import { useForm } from "@inertiajs/inertia-react";
-import { CalendarDays, User } from "lucide-react";
+import { CalendarDays, Edit, Trash2, User } from "lucide-react";
+import { useState } from "react";
 
 interface Props {
     auth: AuthInfo;
@@ -14,6 +16,8 @@ interface Props {
 }
 
 export default function ViewPost({ auth, post }: Props) {
+    const postOwner = post.user_id === auth.user.id;
+    const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const creationDate = new Date(post.created_at).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -36,10 +40,49 @@ export default function ViewPost({ auth, post }: Props) {
         comment: "",
     });
 
+    const deletePostHandler = () => {
+        deletePost(`/post/${post.id}`, {
+            onError: (errors) => {
+                console.log(errors);
+                alert("Unknown error while deleting your post");
+            },
+        });
+    };
+
+    const { delete: deletePost } = useForm();
+
+    const EditDeleteButtons = ({ className }: { className?: string }) => {
+        const sharedClass = "cursor-pointer text-primary transition duration-150 ";
+        return (
+            <div className={`flex w-min gap-3 items-center transition duration-150 ${className || ""}`}>
+                {/* Edit and delete buttons */}
+                <Edit className={`${sharedClass} hover:text-accent`} />
+                <Trash2 className={`${sharedClass} hover:text-danger`} onClick={() => setDeleteConfirmOpen(true)} />
+            </div>
+        );
+    };
+
     return (
         <AuthLayout className="container max-w-4xl  mx-auto py-8" auth={auth}>
-            <h1 className="max-sm:text-center mb-8 text-5xl font-bold text-accent">{post.title}</h1>
-            <div className="flex flex-col sm:flex-row gap-2 items-center justify-between">
+            <ConfirmationModal
+                isOpen={deleteConfirmOpen}
+                onClose={() => setDeleteConfirmOpen(false)}
+                onConfirm={deletePostHandler}
+                variant="danger"
+                title="Post deletion"
+                confirmText="Yes, delete"
+                icon={<Trash2 size={24} />}
+            >
+                <p className="text-primary">Are you absolutely sure you want to delete this post?</p>
+                <p className="mt-1 text-xs text-secondary">This action cannot be undone.</p>
+            </ConfirmationModal>
+
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center mb-4 sm:mb-8">
+                <h1 className="max-sm:text-center text-5xl font-bold text-accent">{post.title}</h1>
+                {postOwner && <EditDeleteButtons className="max-sm:hidden" />}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <div className="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
                     {/* Info about post/author */}
                     <span className="text-secondary flex gap-1 items-center">
@@ -56,7 +99,7 @@ export default function ViewPost({ auth, post }: Props) {
                     </span>
                 </div>
 
-                <div className="flex gap-1 items-center">
+                <div className="sm:ml-auto flex gap-1 items-center">
                     {/* Categories */}
                     {post.categories.map((c) => (
                         <Pill key={c.id} className="text-xs font-medium whitespace-nowrap">
@@ -64,6 +107,8 @@ export default function ViewPost({ auth, post }: Props) {
                         </Pill>
                     ))}
                 </div>
+
+                {postOwner && <EditDeleteButtons className="sm:hidden" />}
             </div>
 
             <div className="mt-6 border-b border-primary/15" />
@@ -97,6 +142,7 @@ export default function ViewPost({ auth, post }: Props) {
                     {post.comments.map((c) => (
                         <Comment
                             key={c.id}
+                            id={c.id}
                             name={c.user.name}
                             text={c.comment}
                             timestamp={c.created_at_diff}

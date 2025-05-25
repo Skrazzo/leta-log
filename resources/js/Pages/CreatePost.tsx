@@ -38,8 +38,7 @@ export default function CreatePost({ auth, categories }: Props) {
     };
 
     const submitHandler = () => {
-        console.log(data);
-        post("/new");
+        post("/post");
     };
 
     useEffect(() => {

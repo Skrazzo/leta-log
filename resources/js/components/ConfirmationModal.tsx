@@ -7,13 +7,13 @@ interface ConfirmationModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
-    children: React.ReactNode; // This will be the main message content
+    children: React.ReactNode;
     variant: ModalVariant;
     title?: string;
     confirmText?: string;
-    cancelText?: string; // If not provided, cancel button won't render
-    icon?: React.ReactNode; // User-provided icon
-    isConfirming?: boolean; // For loading state on confirm button
+    cancelText?: string;
+    icon?: React.ReactNode;
+    isConfirming?: boolean;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -24,13 +24,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     variant,
     title,
     confirmText = "Confirm",
-    cancelText, // No default, presence implies rendering
+    cancelText = "Cancel",
     icon,
     isConfirming = false,
 }) => {
     // isMounted controls if the modal is in the DOM (for exit animation)
     const [isMounted, setIsMounted] = useState(isOpen);
-    // showContent controls the application of "enter" transition classes
     const [showContent, setShowContent] = useState(false);
     const modalPanelRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +42,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             const openTimer = setTimeout(() => setShowContent(true), 10);
             return () => {
                 clearTimeout(openTimer);
-                // document.body.style.overflow = "unset"; // Moved to close logic
             };
         } else {
             setShowContent(false); // Start exit animation
@@ -70,7 +68,6 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         return () => document.removeEventListener("keydown", handleKeyDown);
     }, [handleKeyDown]);
 
-    // Handle click on overlay to close
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
         // Check if the click is directly on the overlay and not on the panel content
         if (event.target === event.currentTarget && !isConfirming) {
