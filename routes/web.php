@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function () {
 
             Route::middleware(PostOwner::class)->group(function () {
                 Route::delete('/{post}', 'delete_post')->name('post.delete'); // delete post
-                // Edit post page
-                // Edit post
+                Route::get('/edit/{post}', 'edit_post_page')->name('edit.post.page'); // Edit post page
+                Route::put('/{post}', 'edit_post')->name('post.edit'); // Edit post
             });
         });
 

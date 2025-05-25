@@ -4,22 +4,30 @@ import FormInput from "@/components/FormInput";
 import RichTextEditor from "@/components/RichTextEditor";
 import SelectedCategories from "@/components/SelectedCategories";
 import { AuthLayout } from "@/Layouts/AuthLayout";
-import { AuthInfo, Category } from "@/types/Data";
+import { AuthInfo, Category, Post } from "@/types/Data";
 import { useForm } from "@inertiajs/inertia-react";
 import { ChangeEvent, useEffect, useState } from "react";
 
 interface Props {
     auth: AuthInfo;
     categories: Category[];
+    post?: Post; // If post is passed, we are editing it
 }
 
-export default function CreatePost({ auth, categories }: Props) {
+export default function CreateEditPost({ auth, categories, post }: Props) {
     const [disabledBtn, setDisabledBtn] = useState(false);
-    const { data, setData, post, processing, reset, errors } = useForm({
-        title: "",
-        content: "",
-        text: "",
-        categories: [] as number[],
+    const {
+        data,
+        setData,
+        post: createPost,
+        put: updatePost,
+        processing,
+        errors,
+    } = useForm({
+        title: post ? post.title : "",
+        content: post ? post.content : "",
+        text: post ? post.text : "",
+        categories: post ? post.categories.map((c) => c.id) : ([] as number[]),
     });
 
     const selectCategoryHandler = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -38,7 +46,13 @@ export default function CreatePost({ auth, categories }: Props) {
     };
 
     const submitHandler = () => {
-        post("/post");
+        if (post) {
+            // Update post
+            updatePost(`/post/${post.id}`);
+        } else {
+            // Create new post
+            createPost("/post");
+        }
     };
 
     useEffect(() => {
@@ -56,7 +70,9 @@ export default function CreatePost({ auth, categories }: Props) {
 
     return (
         <AuthLayout className="container mx-auto py-8" auth={auth}>
-            <h1 className="text-3xl font-bold text-accent">Create new blog post</h1>
+            <h1 className="text-3xl font-bold text-accent">
+                {post ? "Update this blog post" : "Create new blog post"}
+            </h1>
 
             <div className="grid grid-cols-3 mt-8 gap-8">
                 <section className="col-span-2 flex flex-col gap-4 rounded-lg">
@@ -67,11 +83,16 @@ export default function CreatePost({ auth, categories }: Props) {
                             onChange={inputChangeHandler}
                             name="title"
                             maxLength={75}
+                            value={data.title}
                         />
                     </ContentLabel>
 
                     <ContentLabel required label="Content">
-                        <RichTextEditor placeholder="Blog post content" onChanged={richTextChangeHandler} />
+                        <RichTextEditor
+                            initialContent={data.content}
+                            placeholder="Blog post content"
+                            onChanged={richTextChangeHandler}
+                        />
                     </ContentLabel>
                 </section>
                 <aside className="col-span-1 ">
@@ -100,7 +121,7 @@ export default function CreatePost({ auth, categories }: Props) {
                             />
                         </ContentLabel>
                         <Button onClick={submitHandler} disabled={disabledBtn || processing}>
-                            Publish post
+                            {post ? "Update post" : "Publish post"}
                         </Button>
                     </div>
                 </aside>

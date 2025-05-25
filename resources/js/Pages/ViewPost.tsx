@@ -7,6 +7,7 @@ import Pill from "@/components/Pill";
 import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo, Post } from "@/types/Data";
 import { useForm } from "@inertiajs/inertia-react";
+import { Link } from "@inertiajs/react";
 import { CalendarDays, Edit, Trash2, User } from "lucide-react";
 import { useState } from "react";
 
@@ -56,7 +57,10 @@ export default function ViewPost({ auth, post }: Props) {
         return (
             <div className={`flex w-min gap-3 items-center transition duration-150 ${className || ""}`}>
                 {/* Edit and delete buttons */}
-                <Edit className={`${sharedClass} hover:text-accent`} />
+                <Edit
+                    className={`${sharedClass} hover:text-accent`}
+                    onClick={() => (window.location.href = `/post/edit/${post.id}`)}
+                />
                 <Trash2 className={`${sharedClass} hover:text-danger`} onClick={() => setDeleteConfirmOpen(true)} />
             </div>
         );

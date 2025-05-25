@@ -105,11 +105,42 @@ class PostsController extends Controller
         return response()->json($posts);
     }
 
+    public function edit_post_page(Post $post)
+    {
+        // Get all available categories
+        $post->load('categories');
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
+        return Inertia::render('CreateEditPost', compact('categories', 'post'));
+    }
+
+    public function edit_post(Post $post, Request $req)
+    {
+        $data = $req->validate([
+            'title' => 'required|string|max:75',
+            'content' => 'required|string',
+            'text' => 'required|string',
+            'categories' => 'required|array',
+            'categories.*' => 'required|integer|exists:categories,id',
+        ]);
+
+        // Updating post
+        $post->update([
+            'title' => $data['title'],
+            'content' => $data['content'],
+            'text' => $data['text'],
+        ]);
+
+        // Sync up categories
+        $post->categories()->sync($data['categories']);
+
+        return redirect(route('post.view', $post->id)); // View updated post
+    }
+
     public function create_page()
     {
         // Get all available categories
         $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
-        return Inertia::render('CreatePost', ['categories' => $categories]);
+        return Inertia::render('CreateEditPost', ['categories' => $categories]);
     }
 
 
@@ -120,6 +151,7 @@ class PostsController extends Controller
             'content' => 'required|string',
             'text' => 'required|string',
             'categories' => 'required|array',
+            'categories.*' => 'required|integer|exists:categories,id',
         ]);
 
         // Creating new post
