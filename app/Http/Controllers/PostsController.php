@@ -68,11 +68,13 @@ class PostsController extends Controller
             'query' => 'nullable|string|max:255',
             'category' => 'nullable|integer',
             'page' => 'nullable|integer|min:1',
+            'author' => 'sometimes|integer',
         ]);
 
         $searchQuery = $validatedData['query'] ?? null;
         $categoryId = $validatedData['category'] ?? null;
-        $postsPerPage = 100;
+        $authorId = $validatedData['author'] ?? null;
+        $postsPerPage = 20;
 
         $query = Post::query()
             ->with([
@@ -97,6 +99,13 @@ class PostsController extends Controller
         if ($categoryId && $categoryId > 0) {
             $query->whereHas('categories', function (Builder $q) use ($categoryId) {
                 $q->where('categories.id', $categoryId);
+            });
+        }
+
+        // Filter by author if provided
+        if ($authorId && $authorId > 0) {
+            $query->whereHas('user', function (Builder $q) use ($authorId) {
+                $q->where('user_id', $authorId);
             });
         }
 

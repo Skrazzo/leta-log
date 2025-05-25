@@ -54,4 +54,10 @@ class UserController extends Controller
             'email' => 'Incorrect credentials!',
         ]);
     }
+
+    public function user_profile(User $user)
+    {
+        $user = $user->only('id', 'name', 'surname');
+        return Inertia::render('UserProfile', compact('user'));
+    }
 }

@@ -4,7 +4,7 @@ import Pagination from "@/components/Pagination";
 import PostCard from "@/components/PostCard";
 import Skeleton from "@/components/Skeleton";
 import { AuthLayout } from "@/Layouts/AuthLayout";
-import { AuthInfo, Category, LaravelPagination, PostList } from "@/types/Data";
+import { Pagination as PaginationType, AuthInfo, Category, LaravelPagination, PostList } from "@/types/Data";
 import { UrlManager } from "@/utils/UrlManager";
 import axios from "axios";
 import { Frown } from "lucide-react";
@@ -21,17 +21,12 @@ interface SearchQuery {
     page: number;
 }
 
-interface Pagination {
-    currentPage: number;
-    totalPages: number;
-}
-
 export default function Dashboard({ auth, categories }: DashboardProps) {
     const initRender = useRef(true);
     const [searchQuery, setSQ] = useState<SearchQuery>({ query: "", category: 0, page: 1 });
     const urlManager = new UrlManager();
     const [posts, setPosts] = useState<null | PostList[]>(null);
-    const [pagination, setPagination] = useState<Pagination>({ currentPage: 1, totalPages: 1 });
+    const [pagination, setPagination] = useState<PaginationType>({ currentPage: 1, totalPages: 1 });
 
     const fetchPosts = async (searchQuery: SearchQuery): Promise<void> => {
         setPosts(null);

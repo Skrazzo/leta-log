@@ -5,11 +5,12 @@ import NavLink from "./NavLink";
 import { Link } from "@inertiajs/inertia-react";
 
 interface HeaderProps {
+    id: AuthInfo["user"]["id"];
     name: AuthInfo["user"]["name"];
     surname: AuthInfo["user"]["surname"];
 }
 
-export const Header = ({ name, surname }: HeaderProps) => {
+export const Header = ({ id, name, surname }: HeaderProps) => {
     return (
         <header className="fixed w-full text-lg bg-gray-100 shadow">
             <div className="container mx-auto flex items-center gap-6">
@@ -25,7 +26,7 @@ export const Header = ({ name, surname }: HeaderProps) => {
                 </nav>
 
                 <div className="flex flex-1 items-center justify-end gap-6">
-                    <a href="/profile" className="text-primary hover:underline hover:text-accent cursor-pointer">
+                    <a href={`/user/${id}`} className="text-primary hover:underline hover:text-accent cursor-pointer">
                         {capitalizeFirstLetter(name)} {surname.charAt(0).toUpperCase()}.
                     </a>
                     <a href="/logout" className="text-primary hover:text-accent cursor-pointer">

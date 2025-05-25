@@ -45,4 +45,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/comment/{post}', 'comment')->name('post.comment'); // comment on post
         Route::delete('/comment/{comment}', 'delete_comment')->name('post.delete.comment')->middleware(CommentOwner::class); // delete comment
     });
+
+    Route::get('/user/{user}', [UserController::class, 'user_profile'])->name('user.profile'); // Page with info about user
 });

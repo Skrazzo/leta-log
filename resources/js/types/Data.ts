@@ -75,3 +75,8 @@ export interface Post {
     user: User;
     user_id: number;
 }
+
+export interface Pagination {
+    currentPage: number;
+    totalPages: number;
+}
