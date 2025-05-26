@@ -1,8 +1,11 @@
-# LETA-log Installation
+# LETA Log - A blog for you
+
 ![Register](/previews/register.webp)
 ![Dashboard](/previews/dashboard.webp)
 ![Edit and create post view](/previews/create.webp)
 ![Database](/previews/database.webp)
+
+# LETA-log Installation
 
 ## Manual installation (For development)
 
