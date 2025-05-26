@@ -37,6 +37,9 @@ export default function Dashboard({ auth, categories }: DashboardProps) {
             .then((data) => {
                 setPosts(data.data.data);
                 setPagination({ currentPage: data.data.current_page, totalPages: data.data.last_page });
+
+                // Sync back page to url parameters
+                urlManager.set("p", data.data.current_page.toString());
             })
             .catch((err) => {
                 console.log(err);
@@ -87,7 +90,8 @@ export default function Dashboard({ auth, categories }: DashboardProps) {
 
         // Do delayed search after 750 mili seconds of search changing
         const timeout = setTimeout(() => {
-            fetchPosts(searchQuery);
+            // When doing new search, reset page to first
+            fetchPosts({ ...searchQuery, page: 1 });
         }, 750);
 
         return () => clearTimeout(timeout);
