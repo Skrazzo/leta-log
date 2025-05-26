@@ -1,0 +1,83 @@
+# Build frontend assets
+FROM oven/bun:1 AS frontend_builder
+WORKDIR /app
+
+# Install everything
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+
+# Copy js files and build them
+COPY tsconfig.json vite.config.js ./
+COPY resources/ ./resources/
+COPY public/ ./public/
+RUN bun run build
+
+# Install composer, and copy build over
+FROM php:8.2-fpm-alpine AS php_app
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache \
+    curl \
+    libzip-dev \
+    zip \
+    unzip \
+    nginx \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    oniguruma-dev \
+    libxml2-dev
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+    pdo pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    opcache \
+    xml
+
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set recommended PHP.ini settings
+# See https://secure.php.net/manual/en/opcache.configuration.php
+RUN { \
+    echo 'opcache.memory_consumption=128'; \
+    echo 'opcache.interned_strings_buffer=8'; \
+    echo 'opcache.max_accelerated_files=4000'; \
+    echo 'opcache.revalidate_freq=2'; \
+    echo 'opcache.fast_shutdown=1'; \
+    echo 'opcache.enable_cli=1'; \
+    } > /usr/local/etc/php/conf.d/docker-php-opcache.ini
+
+# Copy ya code
+COPY . .
+
+# Install vendor and other shit
+RUN composer install --optimize-autoloader --no-interaction --no-progress
+
+# Copy frontend build
+COPY --from=frontend_builder /app/public/build ./public/build
+
+# Setup web root
+RUN chown -R root:root /app && \
+    chmod -R 775 /app
+
+# Configure Nginx: Remove default, copy yours
+RUN rm /etc/nginx/http.d/default.conf
+COPY docker/nginx/nginx.conf /etc/nginx/http.d/default.conf
+
+# Make entrypoint executable
+RUN chmod +x /app/docker/php/docker-entrypoint.sh
+
+EXPOSE 80
+
+
+ENTRYPOINT [ "/app/docker/php/docker-entrypoint.sh" ]
+# ENTRYPOINT [ "tail", "-f", "/dev/null" ]

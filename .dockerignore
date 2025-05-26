@@ -1,0 +1,9 @@
+node_modules/*
+vendor/*
+
+Dockerfile
+dockerfile
+docker-compose.yml
+database/database.sqlite
+
+public/build/*

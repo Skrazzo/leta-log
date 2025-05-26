@@ -1,0 +1,15 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            args:
+                APP_DEBUG: ${APP_DEBUG:-false}
+        container_name: leta_log_app
+        restart: no
+        ports:
+            - "8000:80"
+        volumes:
+            - ./database:/app/database
+        # environment:
+        # These will override .env file settings if .env is copied into the image
