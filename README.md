@@ -1,8 +1,4 @@
-Most basic Laravel authentication system with ReactJS and Inertia
-
-# LETA-log
-
-# Installation
+# LETA-log Installation
 
 ## Manual installation (For development)
 
@@ -67,7 +63,7 @@ The goal was to build more than just a static blog. We aimed for a dynamic platf
 
 - Experience a smooth, app-like interface without full page reloads.
 
-Our Tech Stack Powerhouse 🚀
+## Our Tech Stack Powerhouse 🚀
 
 Choosing the right tools is crucial, and for this project, we landed on a combination that offers robustness, developer productivity, and a great end-user experience:
 
