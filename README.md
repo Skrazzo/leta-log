@@ -1,4 +1,8 @@
 # LETA-log Installation
+![Register](/previews/register.webp)
+![Dashboard](/previews/dashboard.webp)
+![Edit and create post view](/previews/create.webp)
+![Database](/previews/database.webp)
 
 ## Manual installation (For development)
 
