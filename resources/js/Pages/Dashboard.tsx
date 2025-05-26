@@ -9,6 +9,7 @@ import { UrlManager } from "@/utils/UrlManager";
 import axios from "axios";
 import { Frown } from "lucide-react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
 
 interface DashboardProps {
     auth: AuthInfo;
@@ -109,6 +110,10 @@ export default function Dashboard({ auth, categories }: DashboardProps) {
 
     return (
         <AuthLayout className="container mx-auto py-8" auth={auth}>
+            <Helmet>
+                <title>All blog posts | LETA-log</title>
+            </Helmet>
+
             <h1 className="mb-8 text-3xl font-bold text-accent">Blog posts</h1>
 
             <ContentLabel label="Search and filter">

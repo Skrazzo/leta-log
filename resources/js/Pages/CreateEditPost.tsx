@@ -7,6 +7,7 @@ import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo, Category, Post } from "@/types/Data";
 import { useForm } from "@inertiajs/inertia-react";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 interface Props {
     auth: AuthInfo;
@@ -70,12 +71,14 @@ export default function CreateEditPost({ auth, categories, post }: Props) {
 
     return (
         <AuthLayout className="container mx-auto py-8" auth={auth}>
-            <h1 className="text-3xl font-bold text-accent">
-                {post ? "Update this blog post" : "Create new blog post"}
-            </h1>
+            <Helmet>
+                <title>{post ? "Edit blog post" : "Create new blog post"} | LETA-log</title>
+            </Helmet>
+
+            <h1 className="text-3xl font-bold text-accent">{post ? "Edit this blog post" : "Create new blog post"}</h1>
 
             <div className="grid grid-cols-3 mt-8 gap-8">
-                <section className="col-span-2 flex flex-col gap-4 rounded-lg">
+                <section className="col-span-3 lg:col-span-2 flex flex-col gap-4 rounded-lg">
                     <ContentLabel required label="Title">
                         <FormInput
                             className="w-full bg-background-light"
@@ -95,14 +98,12 @@ export default function CreateEditPost({ auth, categories, post }: Props) {
                         />
                     </ContentLabel>
                 </section>
-                <aside className="col-span-1 ">
+                <aside className="col-span-3 lg:col-span-1">
                     <div className="flex flex-col gap-2 rounded border border-primary/15 bg-gray-100 p-4">
                         <ContentLabel required label="Categories">
                             <select
                                 onChange={selectCategoryHandler}
                                 className="border text-secondary border-primary/15 rounded-md p-3"
-                                name="cars"
-                                id="cars"
                             >
                                 <option value="0">Select category to add</option>
                                 {categories

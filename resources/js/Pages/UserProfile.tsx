@@ -7,6 +7,7 @@ import { UrlManager } from "@/utils/UrlManager";
 import axios from "axios";
 import { Frown } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 interface Props {
     auth: AuthInfo;
@@ -51,6 +52,12 @@ export default function UserProfile({ auth, user }: Props) {
 
     return (
         <AuthLayout className="container mx-auto py-8" auth={auth}>
+            <Helmet>
+                <title>
+                    {user.name} {user.surname} | LETA-log
+                </title>
+            </Helmet>
+
             <h1 className="mb-8 text-3xl font-bold text-accent">
                 Blog posts by {user.name} {user.surname}
             </h1>

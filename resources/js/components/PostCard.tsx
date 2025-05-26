@@ -7,6 +7,7 @@ interface Category {
 }
 
 interface Author {
+    id: number;
     name: string;
     surname: string;
 }
@@ -53,7 +54,7 @@ const PostCard: React.FC<PostCardProps> = ({
     return (
         <a
             href={postUrl}
-            className={`block bg-background-light rounded-lg shadow-xs border border-primary/15 hover:shadow-lg transition-shadow duration-200 ease-in-out overflow-hidden ${className}`}
+            className={`flex flex-col justify-between bg-background-light rounded-lg shadow-xs border border-primary/15 hover:shadow-lg transition-shadow duration-200 ease-in-out overflow-hidden ${className}`}
             aria-label={`Read more about ${title}`}
         >
             <div className="p-5 md:p-6">
@@ -72,12 +73,15 @@ const PostCard: React.FC<PostCardProps> = ({
 
             <div className="border-t border-primary/15 px-5 md:px-6 py-4">
                 <div className="flex flex-wrap justify-between items-center gap-y-2 gap-x-4 text-xs text-secondary">
-                    <div className="flex items-center">
+                    <a
+                        href={`/user/${author.id}`}
+                        className="flex text-primary items-center hover:underline hover:text-accent"
+                    >
                         <User size={14} className="mr-1.5 text-secondary" />
                         <span>
                             {author.name} {author.surname}
                         </span>
-                    </div>
+                    </a>
                     <div className="flex items-center">
                         <CalendarDays size={14} className="mr-1.5 text-secondary" />
                         <span>{formattedDate}</span>

@@ -38,7 +38,7 @@ export default function FormInput({
     return (
         <div className={containerClass || ""}>
             <input
-                className={`h-9 w-full px-3 py-1 focus:outline-none border border-primary/15 focus:border-accent rounded ${className} ${errors[name] ? "border-red-500" : ""}`}
+                className={`h-9 w-full px-3 py-1 focus:outline-none border border-primary/15 focus:border-accent bg-background-light rounded ${className} ${errors[name] ? "border-danger" : ""}`}
                 value={value}
                 type={type}
                 name={name}

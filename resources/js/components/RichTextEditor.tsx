@@ -82,7 +82,7 @@ const RichTextEditor: React.FC<TiptapEditorProps> = ({
 
     return (
         <div className="border border-primary/15 rounded-md shadow-sm bg-background-light">
-            <div className="flex flex-wrap items-center gap-1 p-2 border-b border-primary/15 bg-background/15 rounded-t-md">
+            <div className="sticky top-16 z-800 flex flex-wrap items-center gap-1 p-2 border-b border-primary/15 bg-background-light rounded-t-md">
                 {/* Toolbar buttons with their icons, and functions */}
                 <ToolbarButton
                     onClick={() => editor.chain().focus().toggleBold().run()}

@@ -19,7 +19,7 @@ export default function Button({ children, disabled = false, variant = "primary"
     // Apply different styles based on variant
     switch (variant) {
         case "primary":
-            style += "bg-accent text-gray-100";
+            style += "bg-accent text-background-light";
             break;
     }
 

@@ -15,7 +15,7 @@ export const AuthLayout = ({
     return (
         <>
             <Header id={user.id} name={user.name} surname={user.surname} />
-            <main className={`pt-24 ${className}`}>{children}</main>
+            <main className={`pt-24 px-4 ${className}`}>{children}</main>
         </>
     );
 };

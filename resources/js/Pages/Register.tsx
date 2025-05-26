@@ -1,6 +1,9 @@
+import Button from "@/components/Button";
 import FormInput from "@/components/FormInput";
+import GuestLayout from "@/Layouts/GuestLayout";
 import { useForm } from "@inertiajs/inertia-react";
-import { ChangeEvent, FormEvent, FormEventHandler, InputEvent, useEffect } from "react";
+import { FormEvent } from "react";
+import { Helmet } from "react-helmet";
 
 export default function Register() {
     function submitHandler(e: FormEvent<HTMLFormElement>) {
@@ -8,15 +11,7 @@ export default function Register() {
         post("/register");
     }
 
-    const {
-        data,
-        setData,
-        post,
-        // delete: destroy, // way of setting these function with different names
-        processing,
-        reset,
-        errors,
-    } = useForm({
+    const { setData, post, errors } = useForm({
         email: "",
         name: "",
         surname: "",
@@ -29,17 +24,26 @@ export default function Register() {
     };
 
     return (
-        <form onSubmit={submitHandler} className="flex flex-col grow gap-2 bg-gray-100">
-            <div className="flex items-center gap-2">
-                <FormInput name={"name"} onChange={inputChange} errors={errors} />
-                <FormInput name={"surname"} onChange={inputChange} errors={errors} />
-            </div>
+        <GuestLayout title="Register">
+            <Helmet>
+                <title>Register | LETA-log</title>
+            </Helmet>
 
-            <FormInput name={"email"} onChange={inputChange} errors={errors} />
-            <FormInput name={"password"} type="password" onChange={inputChange} errors={errors} />
-            <FormInput name={"password_confirmation"} type="password" onChange={inputChange} errors={errors} />
+            <form onSubmit={submitHandler} className="flex flex-col gap-2 p-4">
+                <div className="flex items-center gap-2">
+                    <FormInput containerClass="flex-1" name={"name"} onChange={inputChange} errors={errors} />
+                    <FormInput containerClass="flex-1" name={"surname"} onChange={inputChange} errors={errors} />
+                </div>
 
-            <button>Register</button>
-        </form>
+                <FormInput name={"email"} onChange={inputChange} errors={errors} />
+                <FormInput name={"password"} type="password" onChange={inputChange} errors={errors} />
+                <FormInput name={"password_confirmation"} type="password" onChange={inputChange} errors={errors} />
+
+                <Button>Register</Button>
+                <a href="/login" className="underline text-secondary cursor-pointer hover:text-accent text-center">
+                    Want to login instead?
+                </a>
+            </form>
+        </GuestLayout>
     );
 }

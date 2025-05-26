@@ -7,9 +7,10 @@ import Pill from "@/components/Pill";
 import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo, Post } from "@/types/Data";
 import { useForm } from "@inertiajs/inertia-react";
-import { Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import { CalendarDays, Edit, Trash2, User } from "lucide-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 
 interface Props {
     auth: AuthInfo;
@@ -68,6 +69,9 @@ export default function ViewPost({ auth, post }: Props) {
 
     return (
         <AuthLayout className="container max-w-4xl  mx-auto py-8" auth={auth}>
+            <Helmet>
+                <title>{post.title} | LETA-log</title>
+            </Helmet>
             <ConfirmationModal
                 isOpen={deleteConfirmOpen}
                 onClose={() => setDeleteConfirmOpen(false)}
@@ -82,19 +86,22 @@ export default function ViewPost({ auth, post }: Props) {
             </ConfirmationModal>
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center mb-4 sm:mb-8">
-                <h1 className="max-sm:text-center text-5xl font-bold text-accent">{post.title}</h1>
+                <h1 className="max-sm:text-center text-3xl sm:text-5xl font-bold text-accent">{post.title}</h1>
                 {postOwner && <EditDeleteButtons className="max-sm:hidden" />}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 items-center">
                 <div className="flex flex-wrap gap-2 sm:gap-4 items-center justify-center">
                     {/* Info about post/author */}
-                    <span className="text-secondary flex gap-1 items-center">
+                    <span className="text-secondary flex gap-1 items-center ">
                         <User size={16} />
                         by{" "}
-                        <strong className="text-primary">
+                        <a
+                            href={`/user/${post.user.id}`}
+                            className="text-primary font-bold hover:underline hover:text-accent"
+                        >
                             {post.user.name} {post.user.surname}
-                        </strong>
+                        </a>
                     </span>
 
                     <span className="text-secondary flex gap-1 items-center">
@@ -106,9 +113,11 @@ export default function ViewPost({ auth, post }: Props) {
                 <div className="sm:ml-auto flex gap-1 items-center">
                     {/* Categories */}
                     {post.categories.map((c) => (
-                        <Pill key={c.id} className="text-xs font-medium whitespace-nowrap">
-                            {c.name}
-                        </Pill>
+                        <a className="cursor-pointer" href={`/?p=1&c=${c.id}`}>
+                            <Pill key={c.id} className="text-xs font-medium whitespace-nowrap">
+                                {c.name}
+                            </Pill>
+                        </a>
                     ))}
                 </div>
 
@@ -118,11 +127,11 @@ export default function ViewPost({ auth, post }: Props) {
             <div className="mt-6 border-b border-primary/15" />
 
             <div
-                className="pt-8 prose prose-headings:text-primary prose-hr:!my-8 prose-hr:border-primary/15 prose-p:my-4 prose-sm sm:prose lg:prose-lg xl:prose-xl focus:outline-none !max-w-full w-full"
+                className="pt-8 prose prose-headings:text-primary prose-hr:!my-8 prose-hr:border-primary/15 prose-p:my-4 prose lg:prose-lg xl:prose-xl focus:outline-none !max-w-full w-full"
                 dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
-            <h2 className="mt-8 text-accent text-3xl font-semibold">Comments</h2>
+            <h2 className="mt-8 text-accent text-2xl sm:text-3xl font-semibold">Comments</h2>
             <ContentLabel label="Share your thoughts about this post" labelClass="text-secondary mt-2 text-md">
                 <div className="flex gap-1">
                     <FormInput
