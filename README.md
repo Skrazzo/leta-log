@@ -47,9 +47,9 @@ Inside of root project directory run docker compose command
 docker compose up -d --build
 ```
 
-# Log in credentials for testing
+# Accessing test app
 
-After seeding the database, or running `docker compose up -d --build` you can log into test account with these credentials:
+After seeding the database, or running `docker compose up -d --build` you can log into test account at `localhost:8000` with these credentials:
 
 - E-mail: `test@example.com`
 - Password: `labdien123`
