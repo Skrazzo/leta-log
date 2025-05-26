@@ -4,6 +4,46 @@ Most basic Laravel authentication system with ReactJS and Inertia
 
 # Installation
 
+## Manual installation (For development)
+
+First you need to clone this repository
+
+```sh
+# Clone repository
+git clone https://github.com/Skrazzo/leta-log
+```
+
+Then in the root of the project install dependecies, and set up database
+
+```sh
+# Front end
+bun i
+# Back end
+composer install
+# Set up database / migrations / seed the database
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+```
+
+Now you can run the application inside of the root project directory
+
+```sh
+# Run front end
+bun run dev
+
+# Run back end
+php artisan serve
+```
+
+## Docker installation (For production/testing)
+
+Inside of root project directory run docker compose command
+
+```sh
+docker compose up -d --build
+```
+
 # Info
 
 ## The Vision: More Than Just a Blog
