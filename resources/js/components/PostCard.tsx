@@ -72,10 +72,10 @@ const PostCard: React.FC<PostCardProps> = ({
             </div>
 
             <div className="border-t border-primary/15 px-5 md:px-6 py-4">
-                <div className="flex flex-wrap justify-between items-center gap-y-2 gap-x-4 text-xs text-secondary">
+                <div className="grid grid-cols-2 justify-between items-center gap-y-2 gap-x-4 text-xs text-secondary">
                     <a
                         href={`/user/${author.id}`}
-                        className="flex text-primary items-center hover:underline hover:text-accent"
+                        className="flex col-span-2 text-primary items-center hover:underline hover:text-accent"
                     >
                         <User size={14} className="mr-1.5 text-secondary" />
                         <span>

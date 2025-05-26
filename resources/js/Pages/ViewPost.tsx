@@ -7,7 +7,6 @@ import Pill from "@/components/Pill";
 import { AuthLayout } from "@/Layouts/AuthLayout";
 import { AuthInfo, Post } from "@/types/Data";
 import { useForm } from "@inertiajs/inertia-react";
-import { Head } from "@inertiajs/react";
 import { CalendarDays, Edit, Trash2, User } from "lucide-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
@@ -127,7 +126,7 @@ export default function ViewPost({ auth, post }: Props) {
             <div className="mt-6 border-b border-primary/15" />
 
             <div
-                className="pt-8 prose prose-headings:text-primary prose-hr:!my-8 prose-hr:border-primary/15 prose-p:my-4 prose lg:prose-lg xl:prose-xl focus:outline-none !max-w-full w-full"
+                className="pt-8 prose-headings:text-primary prose-hr:!my-8 prose-hr:border-primary/15 prose-p:my-4 prose lg:prose-lg xl:prose-xl focus:outline-none !max-w-full w-full"
                 dangerouslySetInnerHTML={{ __html: post.content }}
             />
 

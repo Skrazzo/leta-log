@@ -14,6 +14,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categoryNames = [
+            'Programming',
             'Food',
             'Travel',
             'Technology',
