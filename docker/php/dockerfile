@@ -62,6 +62,10 @@ COPY . .
 # Install vendor and other shit
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 
+# Copy env file and generate key
+COPY docker/php/.env-docker .env
+RUN php artisan key:generate
+
 # Copy frontend build
 COPY --from=frontend_builder /app/public/build ./public/build
 
